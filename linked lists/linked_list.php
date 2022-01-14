@@ -1,12 +1,15 @@
 <?php
+
 /**
  * Class to represent a node of the linked list
  */
-class Node {
+class Node
+{
     public $data;
     public $next;
 
-    public function __construct($item) {
+    public function __construct($item)
+    {
         $this->data = $item;
         $this->next = null;
     }
@@ -15,7 +18,7 @@ class Node {
 /**
  * Class to represent a linked list
  */
-class MyLinkedList 
+class MyLinkedList
 {
     public $head = null; // instance variable
 
@@ -26,7 +29,8 @@ class MyLinkedList
      *
      * @return int
      */
-    public function getCount() {
+    public function getCount()
+    {
         return self::$count;
     }
 
@@ -36,7 +40,8 @@ class MyLinkedList
      * @param mixed $newItem
      * @return void
      */
-    public function insertAtFirst($newItem) {
+    public function insertAtFirst($newItem)
+    {
         if ($this->head === null) { // if the linked list is empty
             $this->head = new Node($newItem);
         } else { // when the linked list is non-empty
@@ -48,14 +53,14 @@ class MyLinkedList
         self::$count++;
     }
 
-    public function insertAtLast($newItem) {
+    public function insertAtLast($newItem)
+    {
         if ($this->head === null) { // if the linked list is empty
             $this->head = new Node($newItem);
         } else { // when the linked list is non-empty
             $current = $this->head;
 
-            while ($current->next != null)
-            {
+            while ($current->next != null) {
                 $current = $current->next;
             } // after while loop terminates, current points to the last Node
 
@@ -65,17 +70,60 @@ class MyLinkedList
         self::$count++;
     }
 
-    public function delete($item) {
+    /**
+     * Function to insert a node at k-th index in the linked list
+     * Note - index starts from zero
+     *
+     * @param mixed $item
+     * @param int $index
+     * @return void
+     */
+    public function insertAtKthIndex($item, $index)
+    {
+        if ($index == 0) {
+            $this->insertAtFirst($item);
+        } else {
+            $node = new Node($item);
+            $current = $this->head;
+            $previous = $this->head;
+            for ($i = 0; $i < $index; $i++) {
+                $previous = $current;
+                $current = $current->next;
+            }
+            $previous->next = $node;
+            $node->next = $current;
+
+            self::$count++;
+        }
+    }
+
+    public function updateKthNode($newData, $pos)
+    {
+        if ($this->head === null) {
+            $this->head = new Node($newData);
+        } else {
+            $current = $this->head;
+            $currentPos = 1;
+            while ($currentPos < $pos && $current != null) {
+                $current = $current->next;
+                $currentPos++;
+            }
+            $current->data = $newData;
+        }
+    }
+
+    public function delete($item)
+    {
         $current = $previous = $this->head;
 
-        while($current->data != $item) {
+        while ($current->data != $item) {
             $previous = $current;
             $current = $current->next;
         }
 
         // if you are deleting the first node of the linked list
-        if($current == $previous) {
-            $this->head = $current -> next;
+        if ($current == $previous) {
+            $this->head = $current->next;
         }
 
         $previous->next = $current->next;
@@ -83,10 +131,11 @@ class MyLinkedList
         self::$count--;
     }
 
-    public function printList() {
+    public function printList()
+    {
         $items = [];
         $current = $this->head;
-        while($current != null) {
+        while ($current != null) {
             array_push($items, $current->data);
             $current = $current->next;
         }
@@ -105,4 +154,14 @@ $my_list = new MyLinkedList();
 
 $my_list->insertAtFirst(20);
 $my_list->insertAtLast(40);
+$my_list->printList();
+$my_list->insertAtKthIndex(30, 1);
+$my_list->printList();
+$my_list->insertAtKthIndex(50, 3);
+$my_list->printList();
+$my_list->insertAtKthIndex(111, 3);
+$my_list->printList();
+$my_list->updateKthNode(77, 4);
+$my_list->printList();
+$my_list->delete(77);
 $my_list->printList();
