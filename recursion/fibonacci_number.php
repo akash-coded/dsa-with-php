@@ -8,11 +8,11 @@
  */
 function fibonacciNumber($n)
 {
-    if ($n <= 1) {
+    if ($n < 2) {
         return $n;
     }
     return fibonacciNumber($n - 1) + fibonacciNumber($n - 2);
 }
 
-$nThFibonacciNumber = fibonacciNumber(6);
+$nThFibonacciNumber = fibonacciNumber(5);
 print("n-th Fibonacci number = " . $nThFibonacciNumber . "\n");
