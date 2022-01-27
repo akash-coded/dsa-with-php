@@ -6,13 +6,14 @@
  * @param int $n
  * @return int
  */
-function fibonacciNumber($n)
+function getNthFibonacciTerm($n)
 {
     if ($n < 2) {
         return $n;
     }
-    return fibonacciNumber($n - 1) + fibonacciNumber($n - 2);
+    return getNthFibonacciTerm($n - 1) + getNthFibonacciTerm($n - 2);
 }
 
-$nThFibonacciNumber = fibonacciNumber(5);
-print("n-th Fibonacci number = " . $nThFibonacciNumber . "\n");
+$n = 5;
+$nThFibonacciTerm = getNthFibonacciTerm($n);
+print($n . "-th Fibonacci number = " . $nThFibonacciTerm . "\n");
