@@ -1,8 +1,8 @@
 <?php
 class Graph
 {
-    public $vertices; // contains the vertices of the graph
-    public $n; // number of vertices in the graph
+    public $adjacencyMatrix; // represents the edges of the graph
+    public $n; // number of adjacencyMatrix in the graph
 
     public function __construct($n)
     {
@@ -11,15 +11,15 @@ class Graph
             return;
         }
 
-        $this->vertices = array_fill(0, $n, array_fill(0, $n, 0));
+        $this->adjacencyMatrix = array_fill(0, $n, array_fill(0, $n, 0));
         $this->n = $n;
     }
 
     public function addEdge($u, $v)
     {
         if ($this->n > $u && $this->n > $v) {
-            $this->vertices[$u][$v] = 1;
-            $this->vertices[$v][$u] = 1;
+            $this->adjacencyMatrix[$u][$v] = 1;
+            $this->adjacencyMatrix[$v][$u] = 1;
         }
     }
 
@@ -29,7 +29,7 @@ class Graph
             for ($row = 0; $row < $this->n; ++$row) {
                 print("Neighbours of vertex-" . $row . ": ");
                 for ($col = 0; $col < $this->n; $col++) {
-                    if ($this->vertices[$row][$col] == 1) {
+                    if ($this->adjacencyMatrix[$row][$col] == 1) {
                         print($col . " ");
                     }
                 }
@@ -45,7 +45,7 @@ class Graph
         if ($this->n > 0) {
             for ($row = 0; $row < $this->n; ++$row) {
                 for ($col = 0; $col < $this->n; $col++) {
-                    print($this->vertices[$row][$col] . " ");
+                    print($this->adjacencyMatrix[$row][$col] . " ");
                 }
                 print("\n");
             }
