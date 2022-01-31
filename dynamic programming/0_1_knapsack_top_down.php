@@ -1,5 +1,16 @@
 <?php
-function knapsack01Recursive(array $dp, array $profits, array $weights, int $capacity, int $currentIndex)
+
+/**
+ * Finds the maximum profit from the knapsack by top-down DP
+ *
+ * @param array $dp
+ * @param array $profits
+ * @param array $weights
+ * @param integer $capacity
+ * @param integer $currentIndex
+ * @return integer
+ */
+function knapsack01Recursive(array $dp, array $profits, array $weights, int $capacity, int $currentIndex): int
 {
     // base checks
     if ($capacity <= 0 || $currentIndex >= sizeof($profits)) {
@@ -17,24 +28,32 @@ function knapsack01Recursive(array $dp, array $profits, array $weights, int $cap
 
     // if the weight of the element at the current index exceeds $capacity
     // we should not proceed with this element
-    $profitIncludingCurrentIndexItem = 0;
+    $profitIncludingCurrentItem = 0;
     if ($weights[$currentIndex] <= $capacity) {
         $reducedCapacity = $capacity - $weights[$currentIndex];
 
         // recursive call after choosing the element at the current index
-        $profitIncludingCurrentIndexItem = $profits[$currentIndex] + knapsack01Recursive($dp, $profits, $weights, $reducedCapacity, $nextIndex);
+        $profitIncludingCurrentItem = $profits[$currentIndex] + knapsack01Recursive($dp, $profits, $weights, $reducedCapacity, $nextIndex);
     }
 
     // recursive call after excluding the element at the current index
-    $profitExcludingCurrentIndexItem = knapsack01Recursive($dp, $profits, $weights, $capacity, $nextIndex);
+    $profitExcludingCurrentItem = knapsack01Recursive($dp, $profits, $weights, $capacity, $nextIndex);
 
     // find the meximum profit and store it
-    $dp[$currentIndex][$capacity] = max($profitIncludingCurrentIndexItem, $profitExcludingCurrentIndexItem);
+    $dp[$currentIndex][$capacity] = max($profitIncludingCurrentItem, $profitExcludingCurrentItem);
 
     return $dp[$currentIndex][$capacity];
 }
 
-function solve01Knapsack(array $profits, array $weights, int $capacity)
+/**
+ * Constructs the matrix and calls the knapsack01Recursive method
+ *
+ * @param array $profits
+ * @param array $weights
+ * @param integer $capacity
+ * @return integer
+ */
+function solve01Knapsack(array $profits, array $weights, int $capacity): int
 {
     $dp[] = array();
     return knapsack01Recursive($dp, $profits, $weights, $capacity, 0);
